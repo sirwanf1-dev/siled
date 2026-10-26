@@ -123,6 +123,21 @@ body.cart-open{overflow:hidden}
 }
 @media(hover:none){#products .product:hover{transform:none;box-shadow:0 2px 5px #11111108}#products .product:hover img{transform:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* Mobile navigation drawer */
+@media(max-width:680px){
+ .nav{position:relative}
+ .nav.open:before{content:"";position:fixed;z-index:39;inset:111px 0 0;background:rgba(9,11,13,.24);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+ .nav .wrap{display:flex;position:fixed;z-index:40;top:111px;right:0;bottom:0;width:50vw;max-width:340px;height:auto;flex-direction:column;align-items:stretch;gap:4px;padding:14px 10px;background:rgba(11,13,16,.9);color:#fff;border-left:1px solid rgba(255,255,255,.13);box-shadow:-14px 0 38px rgba(0,0,0,.18);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);overflow-y:auto;transform:translateX(105%);visibility:hidden;transition:transform .24s ease,visibility .24s}
+ .nav.open .wrap{transform:translateX(0);visibility:visible}
+ .nav a{padding:13px 11px;border-radius:6px;font-size:12px;white-space:normal}
+ .nav a:hover,.nav a:focus-visible{background:rgba(255,255,255,.12);outline-offset:2px}
+ .nav .trade{margin-top:8px;background:var(--red)}
+ .nav-toggle-row{position:relative;z-index:41}
+ .hamb[aria-expanded="true"]{background:#292b2e}
+}
+@media(max-width:360px){.nav .wrap{padding:12px 7px}.nav a{padding:12px 8px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){.nav .wrap{transition:none}}
 </style>
 </head>
 <body>
@@ -179,7 +194,12 @@ body.cart-open{overflow:hidden}
 const notice=document.getElementById('notice');let noticeTimer;
 function showNotice(t){notice.textContent=t;notice.classList.add('show');clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>notice.classList.remove('show'),2500)}
 document.getElementById('year').textContent=new Date().getFullYear();
-document.getElementById('menuButton').addEventListener('click',()=>document.getElementById('nav').classList.toggle('open'));
+const nav=document.getElementById('nav'),menuButton=document.getElementById('menuButton');
+function setMenuOpen(open){nav.classList.toggle('open',open);menuButton.setAttribute('aria-expanded',open?'true':'false')}
+menuButton.setAttribute('aria-expanded','false');
+menuButton.addEventListener('click',()=>setMenuOpen(!nav.classList.contains('open')));
+nav.addEventListener('click',e=>{if(e.target===nav)setMenuOpen(false)});
+nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>setMenuOpen(false)));
 const cart={},panel=document.getElementById('cartPanel'),shade=document.getElementById('cartShade');
 const money=n=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(n);
 function openCart(){panel.classList.add('open');panel.setAttribute('aria-hidden','false');shade.hidden=false;document.body.classList.add('cart-open')}
