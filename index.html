@@ -158,7 +158,7 @@ body.siled-motion-ready #products .product.siled-reveal.is-visible:focus-within{
 .storefront-hero.auto-warm .storefront-image{filter:saturate(.96) contrast(1.01) brightness(1)}
 .storefront-hero.auto-rgb .storefront-image,.storefront-hero.is-lit .storefront-image{filter:saturate(1.13) contrast(1.02) brightness(1.02)}
 .storefront-hero.auto-rgb .storefront-frame:before,.storefront-hero.is-lit .storefront-frame:before{opacity:.9;animation:siledAccentCycle 3.6s ease-in-out infinite alternate}
-.storefront-hero.auto-off .storefront-image{filter:grayscale(1) contrast(1.08) brightness(.34)}
+.storefront-hero.auto-off .storefront-image{filter:saturate(.76) contrast(1.04) brightness(.48)}
 .storefront-hero.auto-off .storefront-frame:before{opacity:0}
 @keyframes siledAccentCycle{0%{filter:hue-rotate(-12deg) brightness(.94)}50%{filter:hue-rotate(15deg) brightness(1.1)}100%{filter:hue-rotate(32deg) brightness(.98)}}
 .store-sign{position:absolute;z-index:3;top:14%;left:30%;width:40%;height:25%;display:block;padding:0;border:0;border-radius:4px;background:transparent;cursor:pointer}
@@ -340,8 +340,8 @@ const signStage=document.getElementById('signStage');
 const signLightControl=document.getElementById('signLightControl');
 const reduceHeroMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const autoHeroStates=[
- {name:'auto-rgb',duration:3400},
- {name:'auto-off',duration:3300},
+ {name:'auto-rgb',duration:8500},
+ {name:'auto-off',duration:500},
  {name:'auto-warm',duration:650}
 ];
 let autoHeroIndex=0,autoHeroTimer=null,manualHeroControl=false;
