@@ -341,8 +341,8 @@ const signLightControl=document.getElementById('signLightControl');
 const reduceHeroMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const autoHeroStates=[
  {name:'auto-rgb',duration:8500},
- {name:'auto-off',duration:500},
- {name:'auto-warm',duration:650}
+ {name:'auto-off',duration:3400},
+ {name:'auto-warm',duration:500}
 ];
 let autoHeroIndex=0,autoHeroTimer=null,manualHeroControl=false;
 function clearAutoHero(){signStage.classList.remove('auto-warm','auto-rgb','auto-off')}
