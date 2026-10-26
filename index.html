@@ -149,28 +149,37 @@ body.siled-motion-ready #products .product.siled-reveal.is-visible:focus-within{
 @media(max-width:680px){body.siled-motion-ready #products .siled-reveal{transform:translateY(10px)}}
 @media(prefers-reduced-motion:reduce){body.siled-motion-ready #products .siled-reveal{opacity:1;transform:none;transition:none!important}}
 
-/* Full storefront hero: grayscale until the SILED sign is lit. */
+/* 3D storefront sign, automatic light sequence, and image color reveals. */
 .storefront-hero{position:relative;isolation:isolate;overflow:hidden;background:#090b0d;color:#fff}
 .storefront-frame{position:relative;width:100%;height:clamp(370px,42vw,560px);min-height:350px;overflow:hidden;background:#111316}
-.storefront-image{display:block;width:100%;height:100%;object-fit:cover;object-position:center 25%;filter:grayscale(1) contrast(1.08) brightness(.78);transition:filter .85s cubic-bezier(.2,.75,.25,1)}
+.storefront-image{display:block;width:100%;height:100%;object-fit:cover;object-position:center 25%;filter:grayscale(1) contrast(1.08) brightness(.78);transition:filter .8s cubic-bezier(.2,.75,.25,1)}
 .storefront-frame:before{content:"";position:absolute;z-index:1;inset:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse at var(--light-x,52%) var(--light-y,24%),rgba(241,11,27,.42),rgba(241,11,27,.12) 23%,transparent 55%);mix-blend-mode:screen;transition:opacity .45s ease}
-.storefront-frame:after{content:"";position:absolute;z-index:2;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(4,5,7,.42),transparent 34%,transparent 72%,rgba(4,5,7,.08)),linear-gradient(0deg,rgba(3,4,5,.58),transparent 30%)}
-.storefront-hero.is-lit .storefront-image{filter:grayscale(0) saturate(1.08) contrast(1.02) brightness(1)}
-.storefront-hero.is-lit .storefront-frame:before{opacity:.9}
-.store-sign{position:absolute;z-index:3;top:6%;left:19%;width:66%;height:40%;display:grid;place-items:center;padding:0;border:0;background:transparent;cursor:pointer;perspective:1000px}
-.store-sign:before{content:"";position:absolute;inset:5% 2%;border:1px solid #ffffff08;box-shadow:inset 0 2px 6px #0005;pointer-events:none}
-.store-sign:after{content:"";position:absolute;inset:5% 2%;opacity:0;pointer-events:none;background:radial-gradient(ellipse at var(--sign-x,50%) var(--sign-y,50%),rgba(255,255,255,.27),rgba(241,11,27,.13) 36%,transparent 70%);transition:opacity .3s}
-.store-sign:focus-visible{outline:3px solid white;outline-offset:3px}
-.store-sign-word{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:.015em;font-size:clamp(54px,8.8vw,112px);font-weight:1000;letter-spacing:-.095em;line-height:.82;color:#c9cace;filter:grayscale(1);transform:rotateY(-3deg) translateZ(18px);transform-style:preserve-3d;text-shadow:0 1px 0 #fff8,0 3px 0 #77797d,0 6px 0 #33363b,0 10px 12px #000b;transition:filter .45s,color .45s,text-shadow .45s,transform .35s}
+.storefront-frame:after{content:"";position:absolute;z-index:2;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(4,5,7,.35),transparent 34%,transparent 72%,rgba(4,5,7,.08)),linear-gradient(0deg,rgba(3,4,5,.55),transparent 30%)}
+.storefront-hero.auto-warm .storefront-image{filter:grayscale(.82) contrast(1.06) brightness(.94)}
+.storefront-hero.auto-warm .storefront-frame:before{opacity:.46}
+.storefront-hero.auto-rgb .storefront-image,.storefront-hero.is-lit .storefront-image{filter:grayscale(0) saturate(1.1) contrast(1.02) brightness(1)}
+.storefront-hero.auto-rgb .storefront-frame:before,.storefront-hero.is-lit .storefront-frame:before{opacity:.9}
+.store-sign{position:absolute;z-index:3;top:6%;left:19%;width:66%;height:40%;display:grid;place-items:center;padding:0;border:0;background:transparent;cursor:pointer;perspective:1000px;isolation:isolate}
+.store-sign-plate{position:absolute;z-index:-1;inset:13% 2%;border:1px solid #696c73;border-radius:4px;background:linear-gradient(145deg,#3c3f44 0%,#1a1b1f 22%,#08090b 56%,#282a2e 100%);box-shadow:inset 0 2px 2px #ffffff48,inset 0 -6px 10px #000c,0 4px 0 #111216,0 11px 0 #07080a,0 19px 28px #000c;transform:rotateY(-2.6deg) rotateX(1deg) translateZ(-8px)}
+.store-sign-plate:before{content:"";position:absolute;inset:5px;border:1px solid #ffffff16;border-radius:2px;box-shadow:inset 0 1px #ffffff13}
+.store-sign-bolts{position:absolute;z-index:0;inset:17% 4%;pointer-events:none;background:radial-gradient(circle at 1.5% 5%,#bfc0c2 0 2px,#37393d 2.5px 4px,transparent 4.5px),radial-gradient(circle at 98.5% 5%,#bfc0c2 0 2px,#37393d 2.5px 4px,transparent 4.5px),radial-gradient(circle at 1.5% 95%,#bfc0c2 0 2px,#37393d 2.5px 4px,transparent 4.5px),radial-gradient(circle at 98.5% 95%,#bfc0c2 0 2px,#37393d 2.5px 4px,transparent 4.5px)}
+.store-sign:after{content:"";position:absolute;z-index:2;inset:13% 2%;opacity:0;pointer-events:none;background:radial-gradient(ellipse at var(--sign-x,50%) var(--sign-y,50%),rgba(255,255,255,.38),rgba(241,11,27,.2) 34%,transparent 70%);transition:opacity .35s}
+.store-sign:focus-visible{outline:3px solid white;outline-offset:5px}
+.store-sign-word{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:.015em;font-size:clamp(54px,8.8vw,112px);font-weight:1000;letter-spacing:-.095em;line-height:.82;color:#c9cace;filter:grayscale(1);transform:perspective(700px) rotateY(-3deg) translateZ(22px);transform-style:preserve-3d;-webkit-text-stroke:.5px #ffffff64;text-shadow:0 1px 0 #fff,1px 2px 0 #a6a8ac,2px 4px 0 #777a80,3px 6px 0 #55585e,4px 8px 0 #34363b,6px 11px 0 #202226,8px 15px 3px #101114,10px 19px 8px #000c;transition:filter .45s,text-shadow .45s,transform .35s}
 .store-sign-word .si{color:#24c900}.store-sign-word .l,.store-sign-word .d{color:#fff}.store-sign-word .e{color:var(--red)}
-.store-sign:hover .store-sign-word,.store-sign:focus-visible .store-sign-word{transform:rotateY(-1deg) translateY(-2px) translateZ(24px)}
+.store-sign:hover .store-sign-word,.store-sign:focus-visible .store-sign-word{transform:perspective(700px) rotateY(-1deg) translateY(-2px) translateZ(30px)}
+.storefront-hero.auto-warm .store-sign-plate{border-color:#a29677;box-shadow:inset 0 2px 2px #fff8,inset 0 -6px 10px #000c,0 4px 0 #111216,0 11px 0 #07080a,0 0 24px #fff1c044,0 19px 28px #000c}
+.storefront-hero.auto-warm .store-sign-word{filter:grayscale(.25);color:#fff6dc;text-shadow:0 0 5px #fff4c7,0 0 18px #ffe9a0,0 1px 0 #fff,1px 2px 0 #a6a8ac,2px 4px 0 #777a80,3px 6px 0 #55585e,4px 8px 0 #34363b,6px 11px 0 #202226,8px 15px 3px #101114,10px 19px 8px #000c}
+.storefront-hero.auto-rgb .store-sign:after,.storefront-hero.is-lit .store-sign:after{opacity:1}
+.storefront-hero.auto-rgb .store-sign-word,.storefront-hero.is-lit .store-sign-word{filter:hue-rotate(0deg) drop-shadow(0 0 15px #f22);animation:siledRgbCycle 2.4s linear infinite}
+@keyframes siledRgbCycle{to{filter:hue-rotate(360deg) drop-shadow(0 0 17px #f22)}}
 .store-sign-hint{position:absolute;z-index:4;left:max(18px,calc((100% - var(--max))/2));bottom:18px;display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid #ffffff40;border-radius:4px;background:#08090ac9;color:#fff;font-size:10px;letter-spacing:.04em;backdrop-filter:blur(8px)}
 .store-sign-hint:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 10px #f10b1b}
-.storefront-hero.is-lit .store-sign:after{opacity:1}
-.storefront-hero.is-lit .store-sign-word{filter:none;color:#fff;text-shadow:0 0 3px #fff,0 0 9px #fff9,0 0 22px #ff1a29,0 2px 0 #9b000b,0 5px 0 #4e0007,0 9px 12px #000b}
-@media(max-width:680px){.storefront-frame{height:clamp(270px,70vw,390px);min-height:260px}.storefront-image{object-position:center 25%}.store-sign{top:9%;left:6%;width:88%;height:30%}.store-sign-word{font-size:clamp(46px,13vw,74px);transform:none}.store-sign:hover .store-sign-word,.store-sign:focus-visible .store-sign-word{transform:translateY(-1px)}.store-sign-hint{left:14px;bottom:12px;padding:8px 10px;font-size:9px}}
+@media(max-width:680px){.storefront-frame{height:clamp(270px,70vw,390px);min-height:260px}.storefront-image{object-position:center 25%}.store-sign{top:9%;left:6%;width:88%;height:30%}.store-sign-plate{inset:13% 1%}.store-sign-word{font-size:clamp(46px,13vw,74px);transform:perspective(700px) rotateY(-2deg) translateZ(16px);text-shadow:0 1px 0 #fff,1px 2px 0 #a6a8ac,2px 4px 0 #777a80,3px 6px 0 #55585e,4px 8px 0 #34363b,6px 11px 0 #202226,8px 14px 6px #000c}.store-sign-hint{left:14px;bottom:12px;padding:8px 10px;font-size:9px}}
 @media(max-width:360px){.storefront-frame{height:270px}.store-sign-word{font-size:46px}.store-sign-hint{font-size:8px}}
-@media(prefers-reduced-motion:reduce){.storefront-image,.storefront-frame:before,.store-sign:after,.store-sign-word{transition:none!important}}
+/* The Lumora-style image reveal carries through every product card on pointer devices. */
+@media(hover:hover) and (pointer:fine){#productGrid .product img{filter:grayscale(.94) contrast(1.02);transform:translateZ(0) scale(1);transition:filter .55s cubic-bezier(.2,.7,.2,1),transform .55s cubic-bezier(.2,.7,.2,1)}#productGrid .product:hover img,#productGrid .product:focus-within img{filter:grayscale(0) saturate(1.12) contrast(1.02);transform:translateZ(16px) scale(1.055) rotateZ(-.6deg)}body.siled-motion-ready #productGrid .product.is-visible:hover{transform:perspective(900px) translateY(-5px) rotateX(var(--siled-tilt-y,0deg)) rotateY(var(--siled-tilt-x,0deg)) scale(1.012);box-shadow:0 18px 36px #10111426,0 0 0 1px #f10b1b20}}
+@media(prefers-reduced-motion:reduce){.storefront-image{filter:none!important;transition:none!important}.storefront-frame:before,.store-sign:after{transition:none!important}.store-sign-word{filter:none!important;animation:none!important;transition:none!important}.storefront-hero.auto-rgb .store-sign-word,.storefront-hero.is-lit .store-sign-word{color:#fff;text-shadow:0 0 10px #fff,0 0 24px #f10b1b,0 1px 0 #fff,2px 4px 0 #777a80,4px 8px 0 #34363b,8px 15px 3px #101114}.store-sign-word .si{color:#24c900}.store-sign-word .e{color:var(--red)}}
 
 </style>
 </head>
@@ -182,11 +191,11 @@ body.siled-motion-ready #products .product.siled-reveal.is-visible:focus-within{
 <div class="head-action account"><span class="sym">♙</span>Account</div><button class="head-action" id="cartButton" style="background:white;border:0"><span class="sym">🛒<span class="cart-count" id="cartCount">0</span></span>Basket</button>
 </div><div class="nav" id="nav"><div class="nav-toggle-row"><span style="font-size:12px;font-weight:800">SHOP SILED</span><button class="hamb" id="menuButton">☰ Menu</button></div><nav class="wrap"><a class="active" href="#">Home</a><a href="#categories">LED Lighting⌄</a><a href="#products">Power Supplies⌄</a><a href="#categories">Adhesives⌄</a><a href="#categories">Sign Materials⌄</a><a href="#categories">Accessories⌄</a><a class="trade" href="#contact">Trade Enquiry</a></nav></div></header>
 <main>
-<section class="storefront-hero" id="signStage" aria-label="SILED sign and LED shop">
+<section class="storefront-hero auto-warm" id="signStage" aria-label="SILED sign and LED shop">
 <div class="storefront-frame">
 <img class="storefront-image" src="assets/siled-storefront-hero.jpg" width="1664" height="1024" fetchpriority="high" decoding="async" alt="A modern sign and LED supply shop at dusk, with the SILED storefront sign above the windows">
-<div class="store-sign-hint" aria-hidden="true">Move over the sign or tap to light the shop</div>
-<button class="store-sign" id="signLightControl" type="button" aria-pressed="false" aria-label="Light up the SILED shop sign"><span class="store-sign-word" aria-hidden="true"><span class="si">SI</span><span class="l">L</span><span class="e">E</span><span class="d">D</span></span></button>
+<button class="store-sign" id="signLightControl" type="button" aria-pressed="false" aria-label="Light up the SILED shop sign"><span class="store-sign-plate" aria-hidden="true"></span><span class="store-sign-bolts" aria-hidden="true"></span><span class="store-sign-word" aria-hidden="true"><span class="si">SI</span><span class="l">L</span><span class="e">E</span><span class="d">D</span></span></button>
+<div class="store-sign-hint" aria-hidden="true">Lights cycle automatically · hover or tap the sign</div>
 </div>
 </section>
 </div>
@@ -336,13 +345,20 @@ document.getElementById('tradeForm').addEventListener('submit',e=>{
 });
 
 
-/* Hover or tap the SILED storefront sign to light the complete scene. */
+/* Warm sign illumination, then RGB color reveal, repeating every two seconds. */
 const signStage=document.getElementById('signStage');
 const signLightControl=document.getElementById('signLightControl');
-function setSignLit(lit){signStage.classList.toggle('is-lit',lit);signLightControl.setAttribute('aria-pressed',lit?'true':'false');signLightControl.setAttribute('aria-label',lit?'Turn off the SILED shop sign':'Light up the SILED shop sign')}
-signLightControl.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')setSignLit(true)});
+const reduceHeroMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const autoHeroStates=['auto-rgb','auto-off','auto-warm'];
+let autoHeroIndex=0,autoHeroTimer=null,manualHeroControl=false;
+function clearAutoHero(){signStage.classList.remove('auto-warm','auto-rgb','auto-off')}
+function setManualHeroLit(lit,locked){manualHeroControl=locked;signStage.classList.toggle('is-lit',lit);signLightControl.setAttribute('aria-pressed',lit?'true':'false');signLightControl.setAttribute('aria-label',lit?'Turn off the SILED shop sign':'Light up the SILED shop sign')}
+function scheduleHeroCycle(){window.clearTimeout(autoHeroTimer);if(reduceHeroMotion||document.hidden||manualHeroControl)return;autoHeroTimer=window.setTimeout(()=>{clearAutoHero();signStage.classList.add(autoHeroStates[autoHeroIndex]);autoHeroIndex=(autoHeroIndex+1)%autoHeroStates.length;scheduleHeroCycle()},2000)}
+if(reduceHeroMotion){clearAutoHero();signStage.classList.add('auto-rgb')}else{signStage.classList.add('auto-warm');scheduleHeroCycle()}
+document.addEventListener('visibilitychange',()=>{if(document.hidden)window.clearTimeout(autoHeroTimer);else scheduleHeroCycle()});
+signLightControl.addEventListener('pointerenter',e=>{if(e.pointerType!=='mouse')return;window.clearTimeout(autoHeroTimer);clearAutoHero();setManualHeroLit(true,true)});
 signLightControl.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const frame=signStage.getBoundingClientRect(),sign=signLightControl.getBoundingClientRect();signStage.style.setProperty('--light-x',((e.clientX-frame.left)/frame.width*100).toFixed(1)+'%');signStage.style.setProperty('--light-y',((e.clientY-frame.top)/frame.height*100).toFixed(1)+'%');signLightControl.style.setProperty('--sign-x',((e.clientX-sign.left)/sign.width*100).toFixed(1)+'%');signLightControl.style.setProperty('--sign-y',((e.clientY-sign.top)/sign.height*100).toFixed(1)+'%')},{passive:true});
-signLightControl.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')setSignLit(false)});
-signLightControl.addEventListener('click',e=>{if(e.detail===0||!window.matchMedia('(hover:hover) and (pointer:fine)').matches)setSignLit(!signStage.classList.contains('is-lit'))});
+signLightControl.addEventListener('pointerleave',e=>{if(e.pointerType!=='mouse')return;setManualHeroLit(false,false);autoHeroIndex=0;clearAutoHero();signStage.classList.add('auto-warm');scheduleHeroCycle()});
+signLightControl.addEventListener('click',e=>{if(e.detail!==0&&window.matchMedia('(hover:hover) and (pointer:fine)').matches)return;const lit=!signStage.classList.contains('is-lit');if(lit){window.clearTimeout(autoHeroTimer);clearAutoHero();setManualHeroLit(true,true)}else{setManualHeroLit(false,false);autoHeroIndex=0;clearAutoHero();signStage.classList.add(reduceHeroMotion?'auto-rgb':'auto-warm');scheduleHeroCycle()}});
 
 </script></body></html>
