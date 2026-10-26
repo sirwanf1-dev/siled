@@ -172,6 +172,7 @@ body.siled-motion-ready #products .product.siled-reveal.is-visible:focus-within{
 /* Keep the generated product imagery vivid on hover/focus, with restrained card depth. */
 @media(hover:hover) and (pointer:fine){#productGrid .product img{filter:grayscale(.94) contrast(1.02);transform:translateZ(0) scale(1);transition:filter .55s cubic-bezier(.2,.7,.2,1),transform .55s cubic-bezier(.2,.7,.2,1)}#productGrid .product:hover img,#productGrid .product:focus-within img{filter:grayscale(0) saturate(1.12) contrast(1.02);transform:translateZ(16px) scale(1.055) rotateZ(-.6deg)}body.siled-motion-ready #productGrid .product.is-visible:hover{transform:perspective(900px) translateY(-5px) rotateX(var(--siled-tilt-y,0deg)) rotateY(var(--siled-tilt-x,0deg)) scale(1.012);box-shadow:0 18px 36px #10111426,0 0 0 1px #f10b1b20}}
 @media(prefers-reduced-motion:reduce){.storefront-image{transition:none!important}.storefront-frame:before{animation:none!important;transition:none!important}.store-sign-hint:before{animation:none!important}}
+
 /* Compact shop cards and the sign-triggered Lumora colour reveal. */
 #products.content{padding:12px 0 28px!important}
 .shop-top{padding:0!important;margin:0 0 10px;gap:10px}
@@ -193,12 +194,18 @@ body.siled-motion-ready #products .product.siled-reveal.is-visible:focus-within{
 #products .price-note{min-height:0;margin:1px 0 7px;font-size:9px}
 #products .pactions{gap:5px}
 #products .add,#products .quote-product,#products .details-button,#products .heart{min-height:36px}
-.storefront-image{position:relative;z-index:0}
-.storefront-mono{position:absolute;z-index:1;inset:0;pointer-events:none;opacity:0;clip-path:circle(0% at var(--light-x,50%) var(--light-y,24%));background-image:url("assets/siled-storefront-rgb.jpg");background-size:cover;background-position:center 25%;filter:grayscale(1) brightness(.72)}
+.storefront-image{position:relative;z-index:0;filter:grayscale(1) brightness(.9)!important}
+.storefront-color{position:absolute;z-index:1;inset:0;pointer-events:none;clip-path:circle(0% at var(--light-x,50%) var(--light-y,24%));background:url("assets/siled-storefront-rgb.jpg") center 25%/cover no-repeat;filter:saturate(1.02);transition:clip-path .82s cubic-bezier(.16,1,.3,1),filter .25s ease}
+.storefront-hero.auto-warm .storefront-color,.storefront-hero.auto-rgb .storefront-color{clip-path:circle(155% at var(--light-x,50%) var(--light-y,24%))}
+.storefront-hero.auto-warm .storefront-color{filter:saturate(.98)}
+.storefront-hero.auto-rgb .storefront-color{filter:saturate(1.16)}
+.storefront-hero.auto-off .storefront-color{clip-path:circle(0% at var(--light-x,50%) var(--light-y,24%))}
+.storefront-hero.auto-off .storefront-image{filter:grayscale(.18) brightness(.48)!important}
+.storefront-hero.is-lit .storefront-color,.storefront-hero.lumora-start .storefront-color{clip-path:circle(155% at var(--light-x,50%) var(--light-y,24%));animation:siledLumoraColorReveal .82s cubic-bezier(.16,1,.3,1) both}
+@keyframes siledLumoraColorReveal{from{clip-path:circle(0% at var(--light-x,50%) var(--light-y,24%))}to{clip-path:circle(155% at var(--light-x,50%) var(--light-y,24%))}}
+.storefront-hero.auto-rgb .storefront-frame:before,.storefront-hero.is-lit .storefront-frame:before{z-index:2;opacity:.9}
 .storefront-frame:before{z-index:2}
 .storefront-frame:after{z-index:3}
-.storefront-hero.is-lit .storefront-mono{opacity:1;animation:siledLumoraColorReveal .82s cubic-bezier(.16,1,.3,1) both}
-@keyframes siledLumoraColorReveal{0%{clip-path:circle(155% at var(--light-x,50%) var(--light-y,24%))}100%{clip-path:circle(0% at var(--light-x,50%) var(--light-y,24%))}}
 .store-sign{z-index:4}
 .store-sign:hover{box-shadow:none;background:transparent}
 @media(max-width:680px){
@@ -215,8 +222,12 @@ body.siled-motion-ready #products .product.siled-reveal.is-visible:focus-within{
  #products .price-note{font-size:8px}
  #products .add,#products .quote-product,#products .details-button,#products .heart{min-height:34px}
 }
-@media(prefers-reduced-motion:reduce){.storefront-mono{display:none!important}.storefront-hero.is-lit .storefront-image{filter:none!important}}
-</style>
+@media(prefers-reduced-motion:reduce){
+ .storefront-color{transition:none!important}
+ .storefront-hero.lumora-start .storefront-color,.storefront-hero.is-lit .storefront-color{animation:none!important}
+ .storefront-hero.auto-warm .storefront-color,.storefront-hero.auto-rgb .storefront-color{clip-path:circle(155% at 50% 24%)}
+ .storefront-hero.auto-off .storefront-color{clip-path:circle(0% at 50% 24%)}
+}</style>
 </head>
 <body>
 
@@ -229,7 +240,7 @@ body.siled-motion-ready #products .product.siled-reveal.is-visible:focus-within{
 <section class="storefront-hero auto-warm" id="signStage" aria-label="SILED sign and LED shop">
 <div class="storefront-frame">
 <img class="storefront-image" src="assets/siled-storefront-rgb.jpg" width="1664" height="1024" fetchpriority="high" decoding="async" alt="SILED storefront at dusk with a raised white and red sign, RGB roof lighting and illuminated LED displays">
-<div class="storefront-mono" aria-hidden="true"></div>
+<div class="storefront-color" aria-hidden="true"></div>
 <button class="store-sign" id="signLightControl" type="button" aria-pressed="false" aria-label="Reveal the SILED sign in colour"></button>
 
 </div>
@@ -410,7 +421,7 @@ function scheduleHeroCycle(){
  },next.duration);
 }
 if(reduceHeroMotion){clearAutoHero();signStage.classList.add('auto-warm')}
-else{clearAutoHero();signStage.classList.add('auto-warm');scheduleHeroCycle()}
+else{clearAutoHero();signStage.classList.add('auto-warm','lumora-start');window.setTimeout(()=>signStage.classList.remove('lumora-start'),900);scheduleHeroCycle()}
 document.addEventListener('visibilitychange',()=>{
  if(document.hidden)window.clearTimeout(autoHeroTimer);
  else scheduleHeroCycle();
