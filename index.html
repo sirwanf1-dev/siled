@@ -148,6 +148,34 @@ body.siled-motion-ready #products .product.siled-reveal.is-visible:focus-within{
 }
 @media(max-width:680px){body.siled-motion-ready #products .siled-reveal{transform:translateY(10px)}}
 @media(prefers-reduced-motion:reduce){body.siled-motion-ready #products .siled-reveal{opacity:1;transform:none;transition:none!important}}
+
+/* Interactive sign-lighting feature */
+.sign-stage{--stage-glow:rgba(241,11,27,0);position:relative;isolation:isolate;overflow:hidden;color:#fff;background:radial-gradient(ellipse at 78% 45%,rgba(241,11,27,.12),transparent 34%),linear-gradient(115deg,#090b0e,#17191d 62%,#0b0c0f);transition:background .45s ease}
+.sign-stage:before{content:"";position:absolute;z-index:-1;inset:0;opacity:.17;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(90deg,transparent,#000 35%,#000)}
+.sign-stage-inner{width:min(var(--max),calc(100% - 42px));min-height:260px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.9fr);align-items:center;gap:20px;padding:24px 0}
+.sign-copy{position:relative;z-index:2}.sign-kicker{display:inline-flex;align-items:center;gap:8px;color:#ff6871;font-size:10px;letter-spacing:.16em;font-weight:850}.sign-kicker:before{content:"";width:22px;height:2px;background:var(--red)}
+.sign-copy h2{max-width:520px;margin:9px 0 8px;font-size:clamp(27px,4vw,44px);line-height:1;letter-spacing:-.055em}.sign-copy p{max-width:410px;margin:0;color:#c9cbd0;font-size:13px}
+.sign-shop-link{display:inline-flex;align-items:center;gap:9px;margin-top:14px;padding:9px 14px;border:1px solid #55585f;border-radius:4px;color:#fff;font-size:12px;font-weight:800;transition:background .2s,border-color .2s}.sign-shop-link:hover,.sign-shop-link:focus-visible{background:var(--red);border-color:var(--red)}
+.sign-scene{position:relative;min-height:210px;display:grid;place-items:center;perspective:900px}
+.sign-wall{position:absolute;inset:10% 2%;border-radius:50%;background:radial-gradient(ellipse,rgba(241,11,27,.11),transparent 65%);filter:blur(12px);transition:background .45s ease,transform .45s ease}
+.sign-light-control{position:relative;z-index:1;display:grid;place-items:center;width:min(100%,400px);min-height:150px;padding:22px 28px;border:0;border-radius:4px;background:linear-gradient(145deg,#282b30,#111316 60%,#25272b);box-shadow:inset 0 1px 0 #ffffff24,inset 0 -7px 13px #0008,0 18px 34px #0008;cursor:pointer;transform:rotateY(-7deg) rotateX(2deg);transition:transform .32s cubic-bezier(.2,.8,.2,1),box-shadow .35s,background .35s}
+.sign-light-control:before{content:"";position:absolute;inset:7px;border:1px solid #ffffff18;border-radius:2px;pointer-events:none}
+.sign-light-control:after{content:"";position:absolute;inset:-16px;border-radius:9px;opacity:0;pointer-events:none;background:radial-gradient(ellipse at var(--light-x,50%) var(--light-y,50%),rgba(255,45,58,.48),rgba(241,11,27,.14) 38%,transparent 72%);filter:blur(12px);transition:opacity .35s}
+.sign-light-control:hover,.sign-light-control:focus-visible{transform:rotateY(-3deg) rotateX(0) translateY(-3px)}
+.sign-light-control:focus-visible{outline:3px solid #fff;outline-offset:5px}
+.sign-caption{position:absolute;top:14px;left:17px;color:#9b9da2;font-size:8px;letter-spacing:.18em;font-weight:800}
+.sign-word{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:2px;font-size:clamp(43px,7vw,68px);font-weight:1000;letter-spacing:-.11em;line-height:.9;color:#d1d2d4;filter:grayscale(1);text-shadow:0 2px 0 #fff3,0 6px 1px #0008;transition:filter .38s,color .38s,text-shadow .38s}
+.sign-word .si{color:#24c900}.sign-word .l,.sign-word .d{color:#fff}.sign-word .e{color:var(--red)}
+.sign-hint{position:absolute;bottom:13px;right:17px;color:#aeb0b5;font-size:9px;letter-spacing:.04em}
+.sign-stage.is-lit{background:radial-gradient(ellipse at 77% 48%,rgba(241,11,27,.23),transparent 40%),linear-gradient(115deg,#090b0e,#17191d 62%,#0b0c0f)}
+.sign-stage.is-lit .sign-wall{background:radial-gradient(ellipse,rgba(241,11,27,.48),rgba(241,11,27,.13) 42%,transparent 72%);transform:scale(1.12)}
+.sign-stage.is-lit .sign-light-control{background:linear-gradient(145deg,#303238,#17181b 60%,#282a2e);box-shadow:inset 0 1px 0 #ffffff45,inset 0 -7px 13px #0008,0 0 22px #f10b1b55,0 18px 34px #0008}
+.sign-stage.is-lit .sign-light-control:after{opacity:1}
+.sign-stage.is-lit .sign-word{filter:none;color:#fff;text-shadow:0 0 4px #fff,0 0 12px #fff8,0 0 28px #ff172dcc,0 5px 1px #0007}
+@media(max-width:680px){.sign-stage-inner{width:calc(100% - 28px);min-height:205px;grid-template-columns:minmax(0,1fr) minmax(145px,.82fr);gap:6px;padding:16px 0}.sign-copy h2{font-size:clamp(23px,6vw,32px)}.sign-copy p{font-size:11px;line-height:1.4}.sign-kicker{font-size:8px}.sign-shop-link{margin-top:10px;padding:7px 10px;font-size:10px}.sign-scene{min-height:150px}.sign-light-control{min-height:105px;padding:18px 12px;transform:none}.sign-light-control:hover,.sign-light-control:focus-visible{transform:translateY(-2px)}.sign-caption{top:10px;left:12px;font-size:6px}.sign-word{font-size:clamp(34px,10vw,48px)}.sign-hint{right:11px;bottom:9px;font-size:7px}}
+@media(max-width:360px){.sign-stage-inner{grid-template-columns:minmax(0,1fr) 140px;gap:2px}.sign-copy h2{font-size:23px}.sign-copy p{font-size:10px}.sign-light-control{min-height:94px}.sign-word{font-size:34px}}
+@media(prefers-reduced-motion:reduce){.sign-stage,.sign-light-control,.sign-light-control:after,.sign-wall,.sign-word,.sign-shop-link{transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -158,6 +186,12 @@ body.siled-motion-ready #products .product.siled-reveal.is-visible:focus-within{
 <div class="head-action account"><span class="sym">♙</span>Account</div><button class="head-action" id="cartButton" style="background:white;border:0"><span class="sym">🛒<span class="cart-count" id="cartCount">0</span></span>Basket</button>
 </div><div class="nav" id="nav"><div class="nav-toggle-row"><span style="font-size:12px;font-weight:800">SHOP SILED</span><button class="hamb" id="menuButton">☰ Menu</button></div><nav class="wrap"><a class="active" href="#">Home</a><a href="#categories">LED Lighting⌄</a><a href="#products">Power Supplies⌄</a><a href="#categories">Adhesives⌄</a><a href="#categories">Sign Materials⌄</a><a href="#categories">Accessories⌄</a><a class="trade" href="#contact">Trade Enquiry</a></nav></div></header>
 <main>
+<section class="sign-stage" id="signStage" aria-labelledby="signStageTitle">
+<div class="sign-stage-inner">
+<div class="sign-copy"><span class="sign-kicker">SILED · SIGN LIGHTING</span><h2 id="signStageTitle">Make your sign shine.</h2><p>Move over the sign or tap it to bring the light on.</p><a class="sign-shop-link" href="#productGrid">Explore the shop <span aria-hidden="true">↓</span></a></div>
+<div class="sign-scene"><div class="sign-wall" aria-hidden="true"></div><button class="sign-light-control" id="signLightControl" type="button" aria-pressed="false" aria-label="Turn on the SILED sign"><span class="sign-caption" aria-hidden="true">SILED · LIGHTING DEMO</span><span class="sign-word" aria-hidden="true"><span class="si">SI</span><span class="l">L</span><span class="e">E</span><span class="d">D</span></span><span class="sign-hint" aria-hidden="true">HOVER OR TAP TO LIGHT</span></button></div>
+</div>
+</section>
 </div>
 </div>
 <section class="content" id="products"><div class="wrap"><div class="shop-top"><div><h1>Shop products</h1><p class="preview-label">STORE PREVIEW · Sample prices · Payments not enabled</p></div><a class="red-link" href="#trade-note">Request a trade quote&nbsp; →</a></div>
@@ -303,5 +337,15 @@ document.getElementById('tradeForm').addEventListener('submit',e=>{
  if(!SILED_WHATSAPP_NUMBER){note.textContent='Enquiry prepared, but WhatsApp is not connected yet. Add the verified business WhatsApp number in the site configuration before launch. No message has been sent.';showNotice('WhatsApp contact details are not configured yet.');return}
  window.location.href='https://wa.me/'+SILED_WHATSAPP_NUMBER.replace(/\D/g,'')+'?text='+encodeURIComponent(message);
 });
+
+
+/* Pointer and touch sign-light interaction. */
+const signStage=document.getElementById('signStage');
+const signLightControl=document.getElementById('signLightControl');
+function setSignLit(lit){signStage.classList.toggle('is-lit',lit);signLightControl.setAttribute('aria-pressed',lit?'true':'false');signLightControl.setAttribute('aria-label',lit?'Turn off the SILED sign':'Turn on the SILED sign')}
+signLightControl.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')setSignLit(true)});
+signLightControl.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=signLightControl.getBoundingClientRect();signLightControl.style.setProperty('--light-x',((e.clientX-r.left)/r.width*100).toFixed(1)+'%');signLightControl.style.setProperty('--light-y',((e.clientY-r.top)/r.height*100).toFixed(1)+'%')},{passive:true});
+signLightControl.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')setSignLit(false)});
+signLightControl.addEventListener('click',e=>{if(e.detail===0||!window.matchMedia('(hover:hover) and (pointer:fine)').matches)setSignLit(!signStage.classList.contains('is-lit'))});
 
 </script></body></html>
