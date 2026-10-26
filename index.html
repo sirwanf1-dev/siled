@@ -138,6 +138,16 @@ body.cart-open{overflow:hidden}
 }
 @media(max-width:360px){.nav .wrap{padding:12px 7px}.nav a{padding:12px 8px;font-size:11px}}
 @media(prefers-reduced-motion:reduce){.nav .wrap{transition:none}}
+
+/* SILED shop motion: restrained reveal and desktop depth */
+body.siled-motion-ready #products .siled-reveal{opacity:0;transform:translateY(14px) scale(.995);transition:opacity .62s cubic-bezier(.16,1,.3,1),transform .62s cubic-bezier(.16,1,.3,1)}
+body.siled-motion-ready #products .siled-reveal.is-visible{opacity:1;transform:translateY(0) scale(1);transition-delay:var(--siled-motion-delay,0ms)}
+body.siled-motion-ready #products .product.siled-reveal.is-visible:focus-within{transform:translateY(-3px)}
+@media(hover:hover) and (pointer:fine){
+ body.siled-motion-ready #products .product.siled-reveal.is-visible:hover{transform:perspective(900px) translateY(-4px) rotateX(var(--siled-tilt-y,0deg)) rotateY(var(--siled-tilt-x,0deg)) scale(1.006);transform-style:preserve-3d}
+}
+@media(max-width:680px){body.siled-motion-ready #products .siled-reveal{transform:translateY(10px)}}
+@media(prefers-reduced-motion:reduce){body.siled-motion-ready #products .siled-reveal{opacity:1;transform:none;transition:none!important}}
 </style>
 </head>
 <body>
@@ -231,6 +241,33 @@ originalProducts.forEach(card=>{
  const quote=card.querySelector('.quote-product');if(quote&&name)quote.setAttribute('aria-label','Request a quote for '+name);
  const heart=card.querySelector('.heart');if(heart&&name)heart.setAttribute('aria-label','Save '+name+' to favourites');
 });
+
+
+/* One-time first-view entrance, then small pointer tilt on desktop only. */
+const shopMotionTargets=[document.querySelector('#products .shop-top'),document.querySelector('#products .shop-controls'),...originalProducts].filter(Boolean);
+const reduceShopMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!reduceShopMotion&&'IntersectionObserver' in window){
+ shopMotionTargets.forEach((el,index)=>{el.classList.add('siled-reveal');el.style.setProperty('--siled-motion-delay',Math.min(index*65,390)+'ms')});
+ document.body.classList.add('siled-motion-ready');
+ const shopObserver=new IntersectionObserver((entries,observer)=>entries.forEach(entry=>{
+  if(!entry.isIntersecting)return;
+  const el=entry.target;el.classList.add('is-visible');observer.unobserve(el);
+  const delay=parseInt(el.style.getPropertyValue('--siled-motion-delay'),10)||0;
+  window.setTimeout(()=>el.style.removeProperty('--siled-motion-delay'),700+delay);
+ }),{threshold:.08,rootMargin:'0px 0px -3% 0px'});
+ shopMotionTargets.forEach(el=>shopObserver.observe(el));
+ if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){
+  originalProducts.forEach(card=>{
+   card.addEventListener('pointermove',e=>{
+    if(e.pointerType!=='mouse')return;
+    const rect=card.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width-.5,y=(e.clientY-rect.top)/rect.height-.5;
+    card.style.setProperty('--siled-tilt-x',(x*2.2).toFixed(2)+'deg');
+    card.style.setProperty('--siled-tilt-y',(-y*2.2).toFixed(2)+'deg');
+   },{passive:true});
+   card.addEventListener('pointerleave',()=>{card.style.setProperty('--siled-tilt-x','0deg');card.style.setProperty('--siled-tilt-y','0deg')});
+  });
+ }
+}
 
 function applyProductFilters(scrollToResults=false){
  const q=document.getElementById('searchInput').value.trim().toLowerCase(),cat=document.getElementById('categoryFilter').value,sort=document.getElementById('priceSort').value;
