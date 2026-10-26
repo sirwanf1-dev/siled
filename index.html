@@ -171,7 +171,52 @@ body.siled-motion-ready #products .product.siled-reveal.is-visible:focus-within{
 @media(max-width:360px){.storefront-frame{height:260px}.store-sign-hint{font-size:8px}}
 /* Keep the generated product imagery vivid on hover/focus, with restrained card depth. */
 @media(hover:hover) and (pointer:fine){#productGrid .product img{filter:grayscale(.94) contrast(1.02);transform:translateZ(0) scale(1);transition:filter .55s cubic-bezier(.2,.7,.2,1),transform .55s cubic-bezier(.2,.7,.2,1)}#productGrid .product:hover img,#productGrid .product:focus-within img{filter:grayscale(0) saturate(1.12) contrast(1.02);transform:translateZ(16px) scale(1.055) rotateZ(-.6deg)}body.siled-motion-ready #productGrid .product.is-visible:hover{transform:perspective(900px) translateY(-5px) rotateX(var(--siled-tilt-y,0deg)) rotateY(var(--siled-tilt-x,0deg)) scale(1.012);box-shadow:0 18px 36px #10111426,0 0 0 1px #f10b1b20}}
-@media(prefers-reduced-motion:reduce){.storefront-image{transition:none!important}.storefront-frame:before{animation:none!important;transition:none!important}.store-sign-hint:before{animation:none!important}}</style>
+@media(prefers-reduced-motion:reduce){.storefront-image{transition:none!important}.storefront-frame:before{animation:none!important;transition:none!important}.store-sign-hint:before{animation:none!important}}
+/* Compact shop cards and the sign-triggered Lumora colour reveal. */
+#products.content{padding:12px 0 28px!important}
+.shop-top{padding:0!important;margin:0 0 10px;gap:10px}
+.shop-top h1{font-size:clamp(23px,3vw,32px)!important;letter-spacing:-.045em}
+.shop-top h1:after{width:30px;height:2px;margin-top:5px}
+.preview-label{font-size:9px;letter-spacing:.035em;margin:3px 0 0}
+.shop-top .red-link{font-size:12px}
+.shop-controls{margin:0 0 12px;padding:8px;gap:8px}
+.filter-caution{display:none}
+.filter-field select{min-height:36px;padding:8px}
+#products .products{gap:12px}
+#products .product img{width:100%;height:230px!important;aspect-ratio:auto!important;object-fit:cover!important;object-position:center;padding:0!important}
+#products .pbody{padding:10px}
+#products .product-category{padding:3px 6px;margin:0 0 4px;font-size:8px}
+#products .pname{min-height:0;margin:0 0 3px;font-size:13px;line-height:1.28}
+#products .pdesc{gap:5px;margin:1px 0 6px}
+#products .spec-chip{min-height:20px;padding:3px 6px;font-size:9px}
+#products .price{margin:0;font-size:19px}
+#products .price-note{min-height:0;margin:1px 0 7px;font-size:9px}
+#products .pactions{gap:5px}
+#products .add,#products .quote-product,#products .details-button,#products .heart{min-height:36px}
+.storefront-image{position:relative;z-index:0}
+.storefront-mono{position:absolute;z-index:1;inset:0;pointer-events:none;opacity:0;clip-path:circle(0% at var(--light-x,50%) var(--light-y,24%));background-image:url("assets/siled-storefront-rgb.jpg");background-size:cover;background-position:center 25%;filter:grayscale(1) brightness(.72)}
+.storefront-frame:before{z-index:2}
+.storefront-frame:after{z-index:3}
+.storefront-hero.is-lit .storefront-mono{opacity:1;animation:siledLumoraColorReveal .82s cubic-bezier(.16,1,.3,1) both}
+@keyframes siledLumoraColorReveal{0%{clip-path:circle(155% at var(--light-x,50%) var(--light-y,24%))}100%{clip-path:circle(0% at var(--light-x,50%) var(--light-y,24%))}}
+.store-sign{z-index:4}
+.store-sign:hover{box-shadow:none;background:transparent}
+@media(max-width:680px){
+ #products.content{padding:10px 0 20px!important}
+ .shop-top{margin-bottom:8px}
+ .shop-top h1{font-size:22px!important}
+ .preview-label{font-size:8px}
+ #products .products{gap:9px}
+ #products .product img{height:clamp(145px,45vw,190px)!important}
+ #products .pbody{padding:8px}
+ #products .pname{font-size:12px}
+ #products .spec-chip{min-height:19px;padding:3px 5px;font-size:8px}
+ #products .price{font-size:18px}
+ #products .price-note{font-size:8px}
+ #products .add,#products .quote-product,#products .details-button,#products .heart{min-height:34px}
+}
+@media(prefers-reduced-motion:reduce){.storefront-mono{display:none!important}.storefront-hero.is-lit .storefront-image{filter:none!important}}
+</style>
 </head>
 <body>
 
@@ -184,24 +229,25 @@ body.siled-motion-ready #products .product.siled-reveal.is-visible:focus-within{
 <section class="storefront-hero auto-warm" id="signStage" aria-label="SILED sign and LED shop">
 <div class="storefront-frame">
 <img class="storefront-image" src="assets/siled-storefront-rgb.jpg" width="1664" height="1024" fetchpriority="high" decoding="async" alt="SILED storefront at dusk with a raised white and red sign, RGB roof lighting and illuminated LED displays">
-<button class="store-sign" id="signLightControl" type="button" aria-pressed="false" aria-label="Toggle the automatic SILED sign and shop lighting"></button>
-<div class="store-sign-hint" aria-hidden="true">Lights stay on · short off beat · RGB cycles · tap the sign</div>
+<div class="storefront-mono" aria-hidden="true"></div>
+<button class="store-sign" id="signLightControl" type="button" aria-pressed="false" aria-label="Reveal the SILED sign in colour"></button>
+
 </div>
 </section>
 </div>
 </div>
-<section class="content" id="products"><div class="wrap"><div class="shop-top"><div><h1>Shop products</h1><p class="preview-label">STORE PREVIEW · Sample prices · Payments not enabled</p></div><a class="red-link" href="#trade-note">Request a trade quote&nbsp; →</a></div>
-<div class="shop-controls" aria-label="Product filters"><p class="filter-caution">Price sorting uses sample prices only.</p>
+<section class="content" id="products"><div class="wrap"><div class="shop-top"><div><h1>Shop products</h1><p class="preview-label">Sample prices · Payments not enabled</p></div><a class="red-link" href="#trade-note">Request a trade quote&nbsp; →</a></div>
+<div class="shop-controls" aria-label="Product filters">
 <label class="filter-field"><span>Category</span><select id="categoryFilter"><option value="all">All categories</option><option>LED Lighting</option><option>Power Supplies</option><option>Adhesives</option><option>Sign Materials</option><option>Accessories</option></select></label>
 <label class="filter-field"><span>Sort by price</span><select id="priceSort"><option value="default">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></label>
 <button type="button" class="clear-filters" id="clearFilters">Clear filters</button>
 </div>
 <div class="products" id="productGrid">
-<article class="product" data-name="LED Module 3 LED 12V White IP65" data-category="LED Lighting"><img loading="lazy" decoding="async" width="320" height="320" src="assets/products/led-module.jpg" alt="White LED modules"><div class="pbody"><span class="product-category">LED Lighting</span><div class="pname">LED Module 3 LED 12V White (IP65)</div><div class="pdesc">White · 12V · IP65</div><div class="price">£0.35</div><span class="price-note">Sample price · confirm before ordering</span><div class="pactions"><button class="details-button" type="button">Details</button><button class="add" type="button">Add to basket</button><button class="heart" type="button" aria-label="Save product" aria-pressed="false">♡</button></div></div></article>
-<article class="product" data-name="RGB LED Strip 12V 5 Metre Roll" data-category="LED Lighting"><img loading="lazy" decoding="async" width="320" height="320" src="assets/products/rgb-strip.jpg" alt="Colourful RGB lighting strip"><div class="pbody"><span class="product-category">LED Lighting</span><div class="pname">RGB LED Strip 12V — 5 Metre Roll</div><div class="pdesc">RGB · 12V · 5m roll</div><div class="price">£12.99</div><span class="price-note">Sample price · confirm before ordering</span><div class="pactions"><button class="details-button" type="button">Details</button><button class="add">Add</button><button class="heart" aria-label="Save product">♡</button></div></div></article>
-<article class="product" data-name="12V 200W Power Supply Ultra Slim" data-category="Power Supplies"><img loading="lazy" decoding="async" width="320" height="320" src="assets/products/power-supply.jpg" alt="Power supply and electrical equipment"><div class="pbody"><span class="product-category">Power Supplies</span><div class="pname">12V 200W Power Supply — Ultra Slim</div><div class="pdesc">12V · 200W · Ventilated case</div><div class="price">£18.50</div><span class="price-note">Sample price · confirm before ordering</span><div class="pactions"><button class="details-button" type="button">Details</button><button class="add">Add</button><button class="heart" aria-label="Save product">♡</button></div></div></article>
-<article class="product" data-name="Sign Adhesive Heavy Duty 290ml" data-category="Adhesives"><img loading="lazy" decoding="async" width="320" height="320" src="assets/products/sign-adhesive.jpg" alt="Adhesives and workshop supplies"><div class="pbody"><span class="product-category">Adhesives</span><div class="pname">Sign Adhesive — Heavy Duty 290ml</div><div class="pdesc">Workshop bonding adhesive</div><div class="price">£5.99</div><span class="price-note">Sample price · confirm before ordering</span><div class="pactions"><button class="details-button" type="button">Details</button><button class="add">Add</button><button class="heart" aria-label="Save product">♡</button></div></div></article>
-<article class="product" data-name="Aluminium Composite Panel ACM" data-category="Sign Materials"><img loading="lazy" decoding="async" width="320" height="320" src="assets/products/acm-panel.jpg" alt="Aluminium and sign panel material"><div class="pbody"><span class="product-category">Sign Materials</span><div class="pname">Aluminium Composite Panel (ACM)</div><div class="pdesc">Panel material · Cut to size</div><div class="price">£42.00</div><span class="price-note">Sample price · confirm before ordering</span><div class="pactions"><button class="details-button" type="button">Details</button><button class="add">Add</button><button class="heart" aria-label="Save product">♡</button></div></div></article>
+<article class="product" data-name="LED Module 3 LED 12V White IP65" data-category="LED Lighting"><img loading="lazy" decoding="async" width="320" height="320" src="assets/products/led-module.jpg" alt="White LED modules"><div class="pbody"><span class="product-category">LED Lighting</span><div class="pname">LED Module 3 LED 12V White (IP65)</div><div class="pdesc">White · 12V · IP65</div><div class="price">£0.35</div><span class="price-note">Sample price</span><div class="pactions"><button class="details-button" type="button">Details</button><button class="add" type="button">Add to basket</button><button class="heart" type="button" aria-label="Save product" aria-pressed="false">♡</button></div></div></article>
+<article class="product" data-name="RGB LED Strip 12V 5 Metre Roll" data-category="LED Lighting"><img loading="lazy" decoding="async" width="320" height="320" src="assets/products/rgb-strip.jpg" alt="Colourful RGB lighting strip"><div class="pbody"><span class="product-category">LED Lighting</span><div class="pname">RGB LED Strip 12V — 5 Metre Roll</div><div class="pdesc">RGB · 12V · 5m roll</div><div class="price">£12.99</div><span class="price-note">Sample price</span><div class="pactions"><button class="details-button" type="button">Details</button><button class="add">Add</button><button class="heart" aria-label="Save product">♡</button></div></div></article>
+<article class="product" data-name="12V 200W Power Supply Ultra Slim" data-category="Power Supplies"><img loading="lazy" decoding="async" width="320" height="320" src="assets/products/power-supply.jpg" alt="Power supply and electrical equipment"><div class="pbody"><span class="product-category">Power Supplies</span><div class="pname">12V 200W Power Supply — Ultra Slim</div><div class="pdesc">12V · 200W · Ventilated case</div><div class="price">£18.50</div><span class="price-note">Sample price</span><div class="pactions"><button class="details-button" type="button">Details</button><button class="add">Add</button><button class="heart" aria-label="Save product">♡</button></div></div></article>
+<article class="product" data-name="Sign Adhesive Heavy Duty 290ml" data-category="Adhesives"><img loading="lazy" decoding="async" width="320" height="320" src="assets/products/sign-adhesive.jpg" alt="Adhesives and workshop supplies"><div class="pbody"><span class="product-category">Adhesives</span><div class="pname">Sign Adhesive — Heavy Duty 290ml</div><div class="pdesc">Workshop bonding adhesive</div><div class="price">£5.99</div><span class="price-note">Sample price</span><div class="pactions"><button class="details-button" type="button">Details</button><button class="add">Add</button><button class="heart" aria-label="Save product">♡</button></div></div></article>
+<article class="product" data-name="Aluminium Composite Panel ACM" data-category="Sign Materials"><img loading="lazy" decoding="async" width="320" height="320" src="assets/products/acm-panel.jpg" alt="Aluminium and sign panel material"><div class="pbody"><span class="product-category">Sign Materials</span><div class="pname">Aluminium Composite Panel (ACM)</div><div class="pdesc">Panel material · Cut to size</div><div class="price">£42.00</div><span class="price-note">Sample price</span><div class="pactions"><button class="details-button" type="button">Details</button><button class="add">Add</button><button class="heart" aria-label="Save product">♡</button></div></div></article>
 <article class="product" data-name="LED Cable and Connectors 2 Core" data-category="Accessories"><img loading="lazy" decoding="async" width="320" height="320" src="assets/products/cable-connectors.jpg" alt="Electrical cable and connectors"><div class="pbody"><span class="product-category">Accessories</span><div class="pname">LED Cable &amp; Connector Set</div><div class="pdesc">Wiring accessories for sign projects</div><div class="price quote-price">Price on request</div><span class="price-note quote-note">Final quote required</span><div class="pactions"><button class="details-button" type="button">Details</button><button class="quote-product" type="button">Request quote</button><button class="heart" aria-label="Save product">♡</button></div></div></article>
 </div><p id="noResults" role="status" style="display:none;color:#666;text-align:center;padding:25px">No matching sample products. Try another search.</p>
 <section class="delivery-info" aria-labelledby="delivery-title">
